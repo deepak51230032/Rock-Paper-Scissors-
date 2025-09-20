@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      margin: 0;
+    }
+
+    .game-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 350px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .choice, .reset-btn {
+      background: #fff;
+      color: #333;
+      border: none;
+      padding: 15px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .choice:hover, .reset-btn:hover {
+      transform: scale(1.1);
+      background: #f1f1f1;
+    }
+
+    .reset-btn {
+      margin-top: 20px;
+      width: 100%;
+      background: #ff4444;
+      color: white;
+    }
+
+    .reset-btn:hover {
+      background: #cc0000;
+    }
+
+    .result, .score {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h2>✊✋✌ Rock Paper Scissors</h2>
+
+    <div class="choices">
+      <button class="choice" onclick="playGame('rock')">✊ Rock</button>
+      <button class="choice" onclick="playGame('paper')">✋ Paper</button>
+      <button class="choice" onclick="playGame('scissors')">✌ Scissors</button>
+    </div>
+
+    <div class="result" id="result">Make your move!</div>
+    <div class="score" id="score">Player: 0 | Computer: 0</div>
+
+    <button class="reset-btn" onclick="resetGame()">🔄 Reset Game</button>
+  </div>
+
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+
+    function playGame(playerChoice) {
+      const choices = ["rock", "paper", "scissors"];
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+      let result = "";
+
+      if (playerChoice === computerChoice) {
+        result = "It's a Draw!";
+      } else if (
+        (playerChoice === "rock" && computerChoice === "scissors") ||
+        (playerChoice === "paper" && computerChoice === "rock") ||
+        (playerChoice === "scissors" && computerChoice === "paper")
+      ) {
+        result = `You Win! ${capitalize(playerChoice)} beats ${capitalize(computerChoice)}`;
+        playerScore++;
+      } else {
+        result = `You Lose! ${capitalize(computerChoice)} beats ${capitalize(playerChoice)}`;
+        computerScore++;
+      }
+
+      document.getElementById("result").innerHTML = 
+        `You chose <span class="highlight">${capitalize(playerChoice)}</span>, 
+        Computer chose <span class="highlight">${capitalize(computerChoice)}</span>.<br>${result}`;
+
+      document.getElementById("score").innerHTML = 
+        `Player: ${playerScore} | Computer: ${computerScore}`;
+    }
+
+    function capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+
+    function resetGame() {
+      playerScore = 0;
+      computerScore = 0;
+      document.getElementById("result").innerText = "Make your move!";
+      document.getElementById("score").innerText = "Player: 0 | Computer: 0";
+    }
+  </script>
+</body>
+</html>
